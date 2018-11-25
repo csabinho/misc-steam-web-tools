@@ -1,0 +1,52 @@
+<html>
+	<head>
+	<title>Steam-Achievement Statistik</title>
+	</head>
+	<script type="text/javascript" src="//www.csabinho.net/lib/jquery_tablesorter/jquery-latest.js"></script>
+	<script type="text/javascript" src="//www.csabinho.net/lib/jquery_tablesorter/jquery.tablesorter.js"></script>
+	<script type="text/javascript">
+$.tablesorter.addParser({ 
+// set a unique id 
+  id: 'money', 
+  is: function(s) { 
+// return false so this parser is not auto detected 
+    return false; 
+}, 
+  format: function(s) { 
+// format your data for normalization 
+    return s.slice(0,-1); 
+}, 
+// set type, either numeric or text 
+  type: 'numeric' 
+}); 
+$(function() {		
+  $("#tablesorter-demo").tablesorter({
+  sortList:[[2,0]],
+  headers: {3: {sorter:'money'}}
+  });
+});
+	</script>
+	</head>
+<body>
+<table id="tablesorter-demo" class="tablesorter">
+<thead>
+<tr>
+  <th>Spielname</th>
+  <th>SteamID</th>
+  <th>Eigene Achievements</th>
+  <th>Gesamt</th>
+  <th>Prozentsatz</th>
+</tr>
+</thead>
+<tbody>
+{% for game in games %}
+<tr>
+  <td>{{ game.name }}</td>
+  <td>{{ game.appId }}</td>
+  <td>{{ game.count_user_achievements }}</td>
+  <td>{{ game.count_games_achievements }}</td>
+  <td style="text-align:right;">{{ game.achievement_percentage }}</td>
+</tr>
+{% endfor %}
+</body>
+</html>
